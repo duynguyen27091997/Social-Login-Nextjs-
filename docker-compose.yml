@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  webapp:
+    ports:
+      - 3000:3000
+    build:
+      context: client
+    env_file:
+      - ./client/.env.local
+    environment:
+      BACKEND_URL: http://server_node:4001
+    volumes:
+      - ./client:/usr/src/app
+  server_node:
+    ports:
+      - 4001:4001
+    build:
+      context: server-node
+    volumes:
+      - ./server-node:/usr/src/app
+    depends_on:
+      - db
+  db:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./server-node/db:/data/db
+    restart: unless-stopped
+  nginx:
+    image: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/conf/myapp.conf:/etc/nginx/conf.d/myapp.conf
+      - ./nginx/certs:/etc/nginx/certs
