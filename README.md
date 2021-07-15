@@ -101,6 +101,10 @@ window.FB.logout()
 
 - Create credentials page from https://console.cloud.google.com/home/dashboard
 - Add your domain url so Google can check the authentication of your app
+- Add script
+```html
+<script src="https://apis.google.com/js/platform.js" async defer></script>
+```
 - You will get `google-signin-client_id` from new page you just created
 - Add meta tags
 ```html
